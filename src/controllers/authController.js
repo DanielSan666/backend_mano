@@ -11,7 +11,7 @@ exports.register = async (req, res) => {
     await newUser.save();
     res.status(201).send('User registered');
   } catch (error) {
-    console.error('Error registering user:', error); // Agrega esto para depuración
+    console.error('Error registering user:', error);
     res.status(500).send('Error registering user');
   }
 };
@@ -22,13 +22,13 @@ exports.login = async (req, res) => {
   try {
     const user = await User.findOne({ email });
     if (user && await bcrypt.compare(password, user.password)) {
-      const token = jwt.sign({ id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ id: user._id, email: user.email }, 'some secret key', { expiresIn: '1h' }); // Usa tu clave secreta directamente
       res.json({ token, user: { email: user.email } });
     } else {
       res.status(401).send('Invalid credentials');
     }
   } catch (error) {
-    console.error('Error logging in:', error); // Agrega esto para depuración
+    console.error('Error logging in:', error);
     res.status(500).send('Error logging in');
   }
 };
@@ -42,7 +42,7 @@ exports.getUser = async (req, res) => {
     }
     res.json(user);
   } catch (error) {
-    console.error('Error fetching user:', error); // Agrega esto para depuración
+    console.error('Error fetching user:', error);
     res.status(500).json({ message: 'Error fetching user' });
   }
 };

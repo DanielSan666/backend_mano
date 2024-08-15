@@ -1,19 +1,18 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Importa el middleware CORS
+const cors = require('cors');
 const connectDB = require('./src/config/db'); // Asegúrate de que esta ruta sea correcta
 const authRoutes = require('./src/routes/authRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000; // Puedes definir el puerto directamente aquí si no usas variables de entorno
 
 // Conectar a la base de datos
 connectDB();
 
 // Configurar CORS
 app.use(cors({
-  origin: 'http://localhost:3000', // Permite solicitudes desde el frontend en localhost:3000
-  credentials: true // Si estás utilizando cookies o tokens en encabezados de autorización
+  origin: 'http://localhost:3000',
+  credentials: true
 }));
 
 app.use(express.json());
